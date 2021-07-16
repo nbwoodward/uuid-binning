@@ -58,6 +58,15 @@
       </div>
 
       <div class="section">
+        <h2>Limitations:</h2>
+        This algorithm only supports UUIDs (i.e. all characters are 0-9, a-f and the string is alphanumeric with dashes) but
+        could pretty easily be extended to any string. <br/><br/>
+
+        If you experiment with the number of bins below you will see the algorithm is very effective for 100 bins but
+        starts to lose accuracy above 500 bins.
+      </div>
+
+      <div class="section">
         <h2>Bin Test:</h2>
         This test generates {{numTestsInput}} UUIDs and evaluates the bin between 0 and {{numBinsInput - 1}}.
       </div>
@@ -94,7 +103,7 @@
         <div>{{ i }}</div>
         <div>{{ bins[i] }}</div>
         <div>{{ cumulative[i] }}</div>
-        <div>{{ (i + 1) * expectedPerBin }}</div>
+        <div>{{ Math.round((i + 1) * expectedPerBin) }}</div>
         <div>
           {{ (cumulative[i] / ((i + 1) * expectedPerBin)).toFixed(4) }}
         </div>
