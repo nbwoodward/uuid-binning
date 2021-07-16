@@ -127,7 +127,6 @@ export default {
           this.bins[bin] = 1;
         }
       }
-      console.log(this.bins);
     },
 
     /**
