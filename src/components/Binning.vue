@@ -1,22 +1,24 @@
 <template>
   <div id="app">
     <div id="desc">
-      <h1>UUID Binning Algorithm</h1>
+      <h1>Uniform UUID Binning Algorithm</h1>
 
       <!-- DESCRIPTION -->
-      This is an algorithm for binning UUID/GUID strings into a roughly uniform
-      distribution. The essense of the algorithm is to:
-      <ol>
-        <li>Strip the dashes (-) out of the string<br /></li>
-        <li>For each digit, calculate the char code and the hex code<br /></li>
-        <li>
-          Sum these digits up and take the remainder of the number of bins
-        </li>
-      </ol>
+      <div class="section">
+        This is an algorithm for binning UUID/GUID strings into a roughly uniform
+        distribution. The idea of the algorithm is to:
+        <ol>
+          <li>Strip the dashes (-) out of the string</li>
+          <li>For each digit, calculate the char code and the hex code</li>
+          <li>
+            Sum these digits up and take the remainder with the number of bins
+          </li>
+        </ol>
+      </div>
 
-
+      <div class="section">
       <!-- CODE SNIPPET -->
-      In Code:
+      <h2>In Code:</h2>
       <pre><code>
 
         function binUUID(uuid) {
@@ -34,8 +36,34 @@
         }
 
       </code></pre>
+      </div>
+
+      <div class="section">
+        <h2>Use Case:</h2>
+        When doing feature launching and A/B testing it is useful to bin users into groups. For example, if I'm slow-rolling feature A
+        and I want to present it to 5% of users, I might want to generate a random number between 0 and 99 and show the feature to all
+        users who get 0-4. To improve consistency and UX we need to ensure:
+        <ol>
+          <li>A user always falls into the same bin.</li>
+          <li>The bins are roughly uniform so if a feature is set to 5%, then ~5% of users see the feature.</li>
+        </ol>
+
+        To do this we can implement:
+        <ol>
+          <li>Each feature should store a different UUID in localStorage for a particular browser.</li>
+          <li>On app load, check localStorage for these UUIDs.</li>
+          <li>If one or more don't exist, generate and store them.</li>
+          <li>Determine if a user sees a feature by evaluating the bin number of that feature's UUID.</li>
+        </ol>
+      </div>
+
+      <div class="section">
+        <h2>Bin Test:</h2>
+        This test generates {{numTestsInput}} UUIDs and evaluates the bin between 0 and {{numBinsInput - 1}}.
+      </div>
+
     </div>
-      <!-- CONTROLS -->
+    <!-- CONTROLS -->
     <div id="controls">
       <label for="numBins">Number of bins</label>
       <input
@@ -198,14 +226,21 @@ h1 {
   font-size: 150%;
   margin-bottom: 20px;
 }
+h2 {
+  font-size: 130%;
+  margin-bottom: 10px;
+}
 #desc {
   font-size: 115%;
   max-width: 800px;
   margin: auto;
   padding-bottom: 15px;
 }
-#desc ol{
-  padding:20px 0;
+ol{
+  padding: 10px 20px;
+}
+.section{
+  padding: 1.5rem;
 }
 #table {
   margin-bottom: 20px;
